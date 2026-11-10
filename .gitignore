@@ -1,6 +1,5 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
-
 # ==========================================
 # Dependencies
 # ==========================================
@@ -9,7 +8,7 @@ node_modules/
 .pnp.js
 
 # ==========================================
-# Build output
+# Build output (Vite, Forge, electron-builder)
 # ==========================================
 dist/
 dist-electron/
@@ -17,6 +16,13 @@ out/
 build/
 release/
 artifacts/
+.vite/
+
+# electron-builder unpack / installer staging
+*-unpacked/
+*.nsis.7z
+builder-effective-config.yaml
+builder-debug.yml
 
 # ==========================================
 # Electron build artifacts
@@ -26,7 +32,41 @@ artifacts/
 *.dmg
 *.app
 *.asar
+*.asar.unpacked
 *.blockmap
+*.pkg
+*.deb
+*.rpm
+*.snap
+*.AppImage
+
+# ==========================================
+# .NET backend (api-service)
+# ==========================================
+[Bb]in/
+[Oo]bj/
+[Ll]og/
+[Ll]ogs/
+[Tt]est[Rr]esults/
+[Bb]enchmark[Dd]ot[Nn]et[Aa]rtifacts/
+[Dd]ebug/
+[Dd]ebugPublic/
+[Rr]elease/
+[Rr]eleases/
+x64/
+x86/
+[Ww][Ii][Nn]32/
+[Aa][Rr][Mm]/
+[Aa][Rr][Mm]64/
+bld/
+publish/
+*.user
+*.userosscache
+*.rsuser
+*.suo
+*.sln.docstates
+.vs/
+**/.vs/
 
 # ==========================================
 # Environment / secrets
@@ -35,6 +75,12 @@ artifacts/
 .env.*
 !.env.example
 !.env.template
+*.p12
+*.pfx
+*.cer
+*.mobileprovision
+*.key
+!*.key.example
 
 # ==========================================
 # Logs
@@ -43,16 +89,22 @@ logs/
 *.log
 npm-debug.log*
 yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
 bun-debug.log*
+lerna-debug.log*
 
 # ==========================================
 # Cache
 # ==========================================
 .cache/
 .parcel-cache/
-.vite/
 .eslintcache/
+.stylelintcache/
 *.tsbuildinfo
+.turbo/
+.electron-gyp/
+node_modules/.cache/
 
 # ==========================================
 # Testing
@@ -60,6 +112,15 @@ bun-debug.log*
 coverage/
 playwright-report/
 test-results/
+.nyc_output/
+
+# ==========================================
+# Package managers (optional alternate lockfiles)
+# ==========================================
+# Commit package-lock.json; ignore other managers if not used
+bun.lockb
+.yarn/
+.pnpm-store/
 
 # ==========================================
 # IDE / Editor
@@ -67,17 +128,23 @@ test-results/
 .vscode/*
 !.vscode/extensions.json
 !.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
 .idea/
-*.suo
-*.user
 *.code-workspace
+*.iml
 
 # ==========================================
 # Operating System
 # ==========================================
 .DS_Store
+.AppleDouble
+.LSOverride
+._*
 Thumbs.db
+ehthumbs.db
 Desktop.ini
+Icon?
 
 # ==========================================
 # Temporary files
@@ -86,6 +153,8 @@ tmp/
 temp/
 *.tmp
 *.bak
+*.swp
+*~
 
 # ==========================================
 # Electron / Chromium user data
@@ -94,4 +163,3 @@ userData/
 sessionData/
 GPUCache/
 Crashpad/
-

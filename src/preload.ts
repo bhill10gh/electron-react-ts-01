@@ -4,4 +4,7 @@ import { contextBridge, ipcRenderer } from "electron";
 
 contextBridge.exposeInMainWorld("electronAPI", {
   closeWindow: () => ipcRenderer.send("close-window"),
+  getWeather: () => ipcRenderer.invoke("weather:get"),
+  getReturnString: (str: string) =>
+    ipcRenderer.invoke("musicdb:getReturnString", str),
 });

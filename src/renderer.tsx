@@ -1,14 +1,6 @@
 import { createRoot } from 'react-dom/client';
-import Hello from './components/Hello';
+import App from './App.tsx';
 import './index.css';
-
-const App = () => {
-    return (
-        <>
-        <Hello/>
-        </>
-    )
-};
 
 const container = document.getElementById("root");
 if (!container) {

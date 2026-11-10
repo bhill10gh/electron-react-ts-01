@@ -6,11 +6,15 @@
   "main": ".vite/build/main.js",
   "scripts": {
     "start": "electron-forge start",
+    "dev": "npm run build:api && npm run start",
     "package": "electron-forge package",
     "make": "electron-forge make",
     "publish": "electron-forge publish",
     "lint": "echo \"No linting configured\"",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc -b",
+    "build:api": "dotnet publish backend/api-service/api-service.csproj -c Release -r win-x64 --self-contained true -o backend/api-service/publish",
+    "build:react": "vite build",
+    "build:desktop": "npm run build:api && npm run build:react && electron-builder --win"
   },
   "keywords": [],
   "author": {
@@ -37,6 +41,7 @@
     "@types/react": "^19.3.0",
     "@types/react-dom": "^19.3.0",
     "electron": "36.5.0",
+    "electron-builder": "^26.18.0",
     "tailwindcss": "^4.3.5",
     "typescript": "^7.0.2",
     "vite": "^5.4.19"
@@ -45,6 +50,22 @@
     "@vitejs/plugin-react": "^4.5.2",
     "electron-squirrel-startup": "^1.0.1",
     "react": "^19.1.0",
-    "react-dom": "^19.1.0"
+    "react-dom": "^19.1.0",
+    "react-router-dom": "^7.18.5"
+  },
+  "build": {
+    "appId": "com.smart.desktop",
+    "productName": "SMART Desktop",
+    "extraResources": [
+      {
+        "from": "backend/api-service/publish",
+        "to": "backend"
+      }
+    ],
+    "win": {
+      "target": [
+        "portable"
+      ]
+    }
   }
 }

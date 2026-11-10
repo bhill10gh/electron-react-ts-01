@@ -1,0 +1,5 @@
+<Solution>
+  <Project Path="../Repository/Repository.csproj" Id="1ab1c678-5d0b-43ac-80f8-cbe24a2d2318" />
+  <Project Path="../SqliteDAL/SqliteDAL.csproj" Id="2a35daba-5d68-4510-b5bd-71c17d50e044" />
+  <Project Path="api-service.csproj" />
+</Solution>
