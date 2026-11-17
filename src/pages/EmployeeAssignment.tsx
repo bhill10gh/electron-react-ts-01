@@ -1,5 +1,7 @@
 import { useState } from "react";
-import FromToList from "../components/FromToListProps";
+import FromToList from "../components/FromToList";
+import CollapsiblePanel from "../components/CollapsiblePanel";
+import DynamicGrid from "../components/DynamicGrid";
 
 interface Employee {
   employeeId: number;
@@ -45,20 +47,34 @@ function EmployeeAssignment() {
     console.log("Assigned:", to);
   };
 
+  const columns = ["Employee Id", "First Name", "Last Name", "Department"];
+
   return (
-    <div className="max-w-4xl mx-auto p-6">
+    <div className="p-6">
       <h2 className="mb-4 text-xl font-semibold">Employee Assignment</h2>
 
-      <FromToList<Employee>
-        availableItems={employees}
-        selectedItems={[]}
-        getId={(item: Employee) => item.employeeId}
-        getLabel={(item: Employee) =>
-          `${item.firstName} ${item.lastName} (${item.department})`
-        }
-        onChange={handleChange}
-        height="h-80"
-      />
+      <div className="space-y-3 p-6">
+        <CollapsiblePanel title="Empoyee Selection" defaultOpen={true}>
+          <FromToList<Employee>
+            availableItems={employees}
+            selectedItems={[]}
+            getId={(item: Employee) => item.employeeId}
+            getLabel={(item: Employee) =>
+              `${item.firstName} ${item.lastName} (${item.department})`
+            }
+            onChange={handleChange}
+            height="h-80"
+          />
+        </CollapsiblePanel>
+        <CollapsiblePanel title="Assigned Employees">
+          {assigned !== null && assigned.length > 0 && (
+            <DynamicGrid columns={columns} data={assigned} />
+          )}
+          {assigned.length === 0 && (
+            <p className="text-gray-500">No employees assigned</p>
+          )}
+        </CollapsiblePanel>
+      </div>
     </div>
   );
 }

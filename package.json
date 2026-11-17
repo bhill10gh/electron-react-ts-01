@@ -47,8 +47,12 @@
     "vite": "^5.4.19"
   },
   "dependencies": {
+    "@material-tailwind/react": "^2.1.10",
     "@vitejs/plugin-react": "^4.5.2",
     "electron-squirrel-startup": "^1.0.1",
+    "html-to-image": "^1.11.13",
+    "html2canvas": "^1.4.1",
+    "jspdf": "^4.2.1",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
     "react-router-dom": "^7.18.5"

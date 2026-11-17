@@ -11,6 +11,8 @@ builder.Services.AddDbContext<Mp3DbContext>(options =>
     )
 );
 
+builder.Services.AddScoped<SqliteDAL.Repositories.IMp3Repository, SqliteDAL.Repositories.Mp3Repository>();
+
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddOpenApi();

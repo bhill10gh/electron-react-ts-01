@@ -2,9 +2,23 @@
 // https://www.electronjs.org/docs/latest/tutorial/process-model#preload-scripts
 import { contextBridge, ipcRenderer } from "electron";
 
+export interface FileResult {
+  filePath: string;
+  content: string;
+}
+
 contextBridge.exposeInMainWorld("electronAPI", {
   closeWindow: () => ipcRenderer.send("close-window"),
   getWeather: () => ipcRenderer.invoke("weather:get"),
   getReturnString: (str: string) =>
     ipcRenderer.invoke("musicdb:getReturnString", str),
+  findSong: (search: string) => ipcRenderer.invoke("musicdb:findSong", search),
+  findArtistSongs: (search: string) =>
+    ipcRenderer.invoke("musicdb:findArtistSongs", search),
+  openFile: (): Promise<FileResult | null> =>
+    ipcRenderer.invoke("dialog:openFile"),
+  openAudioFile: (): Promise<string | null> =>
+    ipcRenderer.invoke("dialog:openAudio"),
+  openVideo: (): Promise<string | null> =>
+    ipcRenderer.invoke("dialog:openVideo"),
 });
