@@ -15,6 +15,11 @@ contextBridge.exposeInMainWorld("electronAPI", {
   findSong: (search: string) => ipcRenderer.invoke("musicdb:findSong", search),
   findArtistSongs: (search: string) =>
     ipcRenderer.invoke("musicdb:findArtistSongs", search),
+  searchSongs: (filters: {
+    songTitle?: string;
+    artistName?: string;
+    genre?: string;
+  }) => ipcRenderer.invoke("musicdb:searchSongs", filters),
   openFile: (): Promise<FileResult | null> =>
     ipcRenderer.invoke("dialog:openFile"),
   openAudioFile: (): Promise<string | null> =>

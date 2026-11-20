@@ -20,6 +20,11 @@ declare global {
       findArtistSongs: (
         search: string,
       ) => Promise<import("./mp3Types").Mp3SongWithArtists[]>;
+      searchSongs: (filters: {
+        songTitle?: string;
+        artistName?: string;
+        genre?: string;
+      }) => Promise<import("./mp3Types").Mp3SongWithArtists[]>;
     };
   }
 }

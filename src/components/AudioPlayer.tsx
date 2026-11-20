@@ -1,15 +1,18 @@
-import React, { useRef, useState } from "react";
 import { TailwindButton } from "./TailwindButton";
+import { useAppDispatch, useAppSelector } from "../store/hooks";
+import { setAudioUrl } from "../store/slices/appSlice";
+import { useRef } from "react";
 
 export function AudioPlayer() {
-  const [audioUrl, setAudioUrl] = useState<string | null>(null);
   const audioRef = useRef<HTMLAudioElement | null>(null);
+
+  const dispatch = useAppDispatch();
+  const audioUrlFromStore = useAppSelector((state) => state.app.audioUrl);
 
   const handleOpenAndPlay = async () => {
     const url = await window.electronAPI.openAudioFile();
     if (!url) return;
-
-    setAudioUrl(url);
+    void dispatch(setAudioUrl(url));
 
     // Wait a tick for React to update the <audio> src, then play
     setTimeout(() => {
@@ -25,10 +28,10 @@ export function AudioPlayer() {
         Open & Play Audio
       </TailwindButton>
 
-      {audioUrl && (
+      {audioUrlFromStore && (
         <audio
           ref={audioRef}
-          src={audioUrl}
+          src={audioUrlFromStore}
           controls
           style={{ display: "block", marginTop: "1rem" }}
         />

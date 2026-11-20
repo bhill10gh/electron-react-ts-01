@@ -6,6 +6,7 @@ import { spawn } from "child_process";
 import { ChildProcessByStdio } from "node:child_process";
 import { Readable } from "node:stream";
 import { pathToFileURL } from "node:url";
+import { registerMusicDbHandlers } from "./ipc/musicDbHandlers";
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
 if (started) {
@@ -37,6 +38,8 @@ let apiProcess: ChildProcessByStdio<null, Readable, Readable> | null;
 
 const API_URL = "http://127.0.0.1:5189";
 const API_EXE_NAME = "api-service.exe";
+
+registerMusicDbHandlers(API_URL);
 
 function getApiExecutablePath(): string {
   if (app.isPackaged) {
@@ -235,42 +238,6 @@ ipcMain.handle("weather:get", async () => {
 
   if (!response.ok) {
     throw new Error("Failed to retrieve weather forecast");
-  }
-
-  return await response.json();
-});
-
-ipcMain.handle("musicdb:getReturnString", async (_event, str: string) => {
-  const response = await fetch(
-    `${API_URL}/MusicDB?str=${encodeURIComponent(str)}`,
-  );
-
-  if (!response.ok) {
-    throw new Error("Failed to call GetReturnString");
-  }
-
-  return await response.text();
-});
-
-ipcMain.handle("musicdb:findSong", async (_event, search: string) => {
-  const response = await fetch(
-    `${API_URL}/MusicDB/find-song/${encodeURIComponent(search)}`,
-  );
-
-  if (!response.ok) {
-    throw new Error("Failed to find songs");
-  }
-
-  return await response.json();
-});
-
-ipcMain.handle("musicdb:findArtistSongs", async (_event, search: string) => {
-  const response = await fetch(
-    `${API_URL}/MusicDB/find-artist-songs/${encodeURIComponent(search)}`,
-  );
-
-  if (!response.ok) {
-    throw new Error("Failed to find artist songs");
   }
 
   return await response.json();

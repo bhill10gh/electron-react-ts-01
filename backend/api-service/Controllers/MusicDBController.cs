@@ -33,5 +33,14 @@ namespace api_service.Controllers
         {
             return _mp3Repository.FindArtistSongs(search);
         }
+
+        [HttpGet("search-songs", Name = "SearchSongs")]
+        public List<Mp3SongWithArtists> SearchSongs([FromQuery] string? songTitle, [FromQuery] string? artistName, [FromQuery] string? genre)
+        {
+            return _mp3Repository.SearchSongs(
+                songTitle ?? "",
+                artistName ?? "",
+                genre ?? "");
+        }
     }
 }

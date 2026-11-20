@@ -6,5 +6,6 @@ namespace SqliteDAL.Repositories
     {
         List<Mp3SongWithArtists> FindArtistSongs(string artistName);
         List<Mp3SongWithArtists> FindSong(string songTitle);
+        List<Mp3SongWithArtists> SearchSongs(string songTitle, string artistName, string genre);
     }
 }

@@ -1,6 +1,10 @@
-import { createRoot } from 'react-dom/client';
-import App from './App.tsx';
-import './index.css';
+import { createRoot } from "react-dom/client";
+import App from "./App.tsx";
+import "./index.css";
+import React from "react";
+import { Provider } from "react-redux";
+
+import { store } from "./store/store";
 
 const container = document.getElementById("root");
 if (!container) {
@@ -8,4 +12,10 @@ if (!container) {
 }
 
 const root = createRoot(container);
-root.render(<App/>);
+root.render(
+  <React.StrictMode>
+    <Provider store={store}>
+      <App />
+    </Provider>
+  </React.StrictMode>,
+);

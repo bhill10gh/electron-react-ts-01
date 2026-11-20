@@ -1,0 +1,64 @@
+.pdf-page {
+  width: 816px;
+  height: 1056px;
+  padding: 48px;
+  box-sizing: border-box;
+  background: #fff;
+  color: #222;
+  position: relative;
+  overflow: hidden;
+  font-family: Arial, sans-serif;
+}
+
+.pdf-header {
+  height: 45px;
+  margin-bottom: 20px;
+  border-bottom: 1px solid #ccc;
+}
+
+.pdf-content {
+  height: 870px;
+  overflow: hidden;
+}
+
+.pdf-footer {
+  position: absolute;
+  bottom: 25px;
+  left: 48px;
+  right: 48px;
+  height: 25px;
+  border-top: 1px solid #ccc;
+  padding-top: 6px;
+  display: flex;
+  justify-content: space-between;
+  font-size: 11px;
+}
+
+/* Avoid splitting elements */
+.pdf-content p,
+.pdf-content img,
+.pdf-content tr,
+.pdf-content h1,
+.pdf-content h2,
+.pdf-content h3 {
+  break-inside: avoid;
+  page-break-inside: avoid;
+}
+
+/* Manual page break */
+.pdf-page-break {
+  break-before: page;
+  page-break-before: always;
+}
+
+/* Tables */
+.pdf-content table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.pdf-content th,
+.pdf-content td {
+  border: 1px solid #ccc;
+  padding: 6px;
+}

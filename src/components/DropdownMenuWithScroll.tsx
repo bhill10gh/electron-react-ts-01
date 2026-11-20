@@ -1,177 +1,68 @@
+import { useState } from "react";
 import {
   Menu,
   MenuHandler,
   MenuList,
   MenuItem,
 } from "@material-tailwind/react";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { DownloadHtmlBySelector } from "./DownloadHtmlBySelector";
 import { buildHtmlFromSelectors } from "../utilities/getPageHtml";
-import { createPdfFromHtml } from "../utilities/pdfUtilities";
 import { TailwindButton } from "./TailwindButton";
+import { htmlToPdf } from "../utilities/htmlToPdf";
+
+const NAV_ITEMS = [
+  { label: "Home", path: "/" },
+  { label: "About", path: "/about" },
+  { label: "Weather", path: "/weather" },
+  { label: "Employee Assignment", path: "/employee-assignment" },
+  { label: "SongSearch", path: "/find-song" },
+  { label: "File Reader", path: "/file-reader" },
+  { label: "Audio Player", path: "/audio-player" },
+  { label: "Video Player", path: "/video-player" },
+  { label: "Tailwind Buttons", path: "/tailwind-buttons" },
+] as const;
+
 export function MenuWithScrollingContent() {
+  const [menuOpen, setMenuOpen] = useState(false);
+  const navigate = useNavigate();
+
+  const goTo = (path: string) => {
+    setMenuOpen(false);
+    navigate(path);
+  };
+
   return (
     <div
       id="app-menu"
       className="sticky top-0 z-50 -mx-4 mb-4 flex flex-row flex-wrap items-center gap-2 border-b border-gray-200 bg-white px-4 py-3 shadow-sm"
     >
-      <Menu>
+      <Menu open={menuOpen} handler={setMenuOpen} lockScroll={false}>
         <MenuHandler>
           <TailwindButton variant="default">Menu</TailwindButton>
         </MenuHandler>
         <MenuList
           className="max-h-72"
           placeholder="Menu List"
-          title="Menu List"
           onResize={() => {}}
           onResizeCapture={() => {}}
           onPointerEnterCapture={() => {}}
           onPointerLeaveCapture={() => {}}
-          onClick={() => {}}
-          onPointerEnter={() => {}}
-          onPointerLeave={() => {}}
         >
-          <MenuItem
-            placeholder="Menu Item 1"
-            title="Menu Item 1"
-            onResize={() => {}}
-            onResizeCapture={() => {}}
-            onPointerEnterCapture={() => {}}
-            onPointerLeaveCapture={() => {}}
-            onClick={() => {}}
-          >
-            <Link className="text-blue-600 hover:underline" to="/">
-              Home
-            </Link>
-          </MenuItem>
-          <MenuItem
-            placeholder="Menu Item 2"
-            title="Menu Item 2"
-            onResize={() => {}}
-            onResizeCapture={() => {}}
-            onPointerEnterCapture={() => {}}
-            onPointerLeaveCapture={() => {}}
-            onClick={() => {}}
-          >
-            <Link className="text-blue-600 hover:underline" to="/about">
-              About
-            </Link>
-          </MenuItem>
-          <MenuItem
-            placeholder="Menu Item 3"
-            title="Menu Item 3"
-            onResize={() => {}}
-            onResizeCapture={() => {}}
-            onPointerEnterCapture={() => {}}
-            onPointerLeaveCapture={() => {}}
-            onClick={() => {}}
-          >
-            <Link className="text-blue-600 hover:underline" to="/weather">
-              Weather
-            </Link>
-          </MenuItem>
-          <MenuItem
-            placeholder="Menu Item 4"
-            title="Menu Item 4"
-            onResize={() => {}}
-            onResizeCapture={() => {}}
-            onPointerEnterCapture={() => {}}
-            onPointerLeaveCapture={() => {}}
-            onClick={() => {}}
-          >
-            <Link
+          {NAV_ITEMS.map(({ label, path }) => (
+            <MenuItem
+              key={path}
+              placeholder={label}
               className="text-blue-600 hover:underline"
-              to="/employee-assignment"
+              onResize={() => {}}
+              onResizeCapture={() => {}}
+              onPointerEnterCapture={() => {}}
+              onPointerLeaveCapture={() => {}}
+              onClick={() => goTo(path)}
             >
-              Employee Assignment
-            </Link>
-          </MenuItem>
-          <MenuItem
-            placeholder="Menu Item 5"
-            title="Menu Item 5"
-            onResize={() => {}}
-            onResizeCapture={() => {}}
-            onPointerEnterCapture={() => {}}
-            onPointerLeaveCapture={() => {}}
-            onClick={() => {}}
-          >
-            <Link className="text-blue-600 hover:underline" to="/find-song">
-              SongSearch
-            </Link>
-          </MenuItem>
-          <MenuItem
-            placeholder="Menu Item 6"
-            title="Menu Item 6"
-            onResize={() => {}}
-            onResizeCapture={() => {}}
-            onPointerEnterCapture={() => {}}
-            onPointerLeaveCapture={() => {}}
-            onClick={() => {}}
-          >
-            <Link className="text-blue-600 hover:underline" to="/file-reader">
-              File Reader
-            </Link>
-          </MenuItem>
-          <MenuItem
-            placeholder="Menu Item 7"
-            title="Menu Item 7"
-            onResize={() => {}}
-            onResizeCapture={() => {}}
-            onPointerEnterCapture={() => {}}
-            onPointerLeaveCapture={() => {}}
-            onClick={() => {}}
-          >
-            <Link className="text-blue-600 hover:underline" to="/audio-player">
-              Audio Player
-            </Link>
-          </MenuItem>
-          <MenuItem
-            placeholder="Menu Item 8"
-            title="Menu Item 8"
-            onResize={() => {}}
-            onResizeCapture={() => {}}
-            onPointerEnterCapture={() => {}}
-            onPointerLeaveCapture={() => {}}
-            onClick={() => {}}
-          >
-            <Link className="text-blue-600 hover:underline" to="/video-player">
-              Video Player
-            </Link>
-          </MenuItem>
-          <MenuItem
-            placeholder="Menu Item 9"
-            title="Menu Item 9"
-            onResize={() => {}}
-            onResizeCapture={() => {}}
-            onPointerEnterCapture={() => {}}
-            onPointerLeaveCapture={() => {}}
-            onClick={() => {}}
-          >
-            <Link
-              className="text-blue-600 hover:underline"
-              to="/tailwind-buttons"
-            >
-              Tailwind Buttons
-            </Link>
-          </MenuItem>
-          {/* <MenuItem
-          placeholder="Menu Item 6"
-          title="Menu Item 6"
-          onResize={() => {}}
-          onResizeCapture={() => {}}
-          onPointerEnterCapture={() => {}}
-          onPointerLeaveCapture={() => {}}
-          onClick={() => {}}
-        >
-          <button
-            type="button"
-            className="rounded-md p-2 hover:bg-red-500 hover:text-white"
-            onClick={() => window.electronAPI.closeWindow()}
-            aria-label="Close window"
-          >
-            ✕
-          </button>
-        </MenuItem> */}
+              {label}
+            </MenuItem>
+          ))}
         </MenuList>
       </Menu>
       <DownloadHtmlBySelector
@@ -180,7 +71,7 @@ export function MenuWithScrollingContent() {
         includeDocumentWrapper
         variant="default"
       >
-        Download menu + content
+        Save Content To HTML
       </DownloadHtmlBySelector>
       <TailwindButton
         variant="default"
@@ -190,13 +81,13 @@ export function MenuWithScrollingContent() {
             true,
           );
           if (html) {
-            void createPdfFromHtml(html, "menu-and-content.pdf");
+            void htmlToPdf(html, { fileName: "menu-and-content.pdf" });
           } else {
             console.error("No HTML found");
           }
         }}
       >
-        Generate PDF
+        Save Content to PDF
       </TailwindButton>
     </div>
   );

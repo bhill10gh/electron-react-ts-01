@@ -1,13 +1,16 @@
-import { useState } from "react";
 import { TailwindButton } from "./TailwindButton";
 
+import { setVideoUrl } from "../store/slices/appSlice";
+import { useAppDispatch, useAppSelector } from "../store/hooks";
+
 export function VideoPlayer() {
-  const [videoSrc, setVideoSrc] = useState<string | null>(null);
+  const dispatch = useAppDispatch();
+  const videoUrlFromStore = useAppSelector((state) => state.app.videoUrl);
 
   const handleOpenFile = async () => {
     const url = await window.electronAPI.openVideo();
     if (url) {
-      setVideoSrc(url);
+      void dispatch(setVideoUrl(url));
     }
   };
 
@@ -20,8 +23,12 @@ export function VideoPlayer() {
         Open video
       </TailwindButton>
 
-      {videoSrc && (
-        <video src={videoSrc} controls className="mt-4 block max-w-full" />
+      {videoUrlFromStore && (
+        <video
+          src={videoUrlFromStore}
+          controls
+          className="mt-4 block max-w-full"
+        />
       )}
     </div>
   );

@@ -1,20 +1,27 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
+import Modal from "./Modal";
 
 function GridCell({
   children,
   tooltip,
+  modalTitle,
 }: {
   children: React.ReactNode;
   tooltip: string;
+  modalTitle?: string;
 }) {
   const cellRef = useRef<HTMLDivElement>(null);
   const [title, setTitle] = useState<string | undefined>();
+  const [isTruncated, setIsTruncated] = useState(false);
+  const [modalOpen, setModalOpen] = useState(false);
 
   const updateTooltip = useCallback(() => {
     const el = cellRef.current;
     if (!el) return;
     const truncated = el.scrollWidth > el.clientWidth;
-    setTitle(truncated && tooltip ? tooltip : undefined);
+    const showTooltip = truncated && Boolean(tooltip);
+    setIsTruncated(showTooltip);
+    setTitle(showTooltip ? tooltip : undefined);
   }, [tooltip]);
 
   useEffect(() => {
@@ -27,10 +34,47 @@ function GridCell({
     return () => observer.disconnect();
   }, [updateTooltip, children]);
 
+  const openModal = () => {
+    if (isTruncated && tooltip) {
+      setModalOpen(true);
+    }
+  };
+
+  const onKeyDown = (event: React.KeyboardEvent<HTMLDivElement>) => {
+    if (!isTruncated) return;
+    if (event.key === "Enter" || event.key === " ") {
+      event.preventDefault();
+      openModal();
+    }
+  };
+
   return (
-    <div ref={cellRef} className="p-3 min-w-0 truncate" title={title}>
-      {children}
-    </div>
+    <>
+      <div
+        ref={cellRef}
+        className={`p-3 min-w-0 truncate${isTruncated ? " cursor-pointer underline decoration-dotted decoration-gray-400 underline-offset-2" : ""}`}
+        title={title}
+        onClick={isTruncated ? openModal : undefined}
+        onKeyDown={isTruncated ? onKeyDown : undefined}
+        role={isTruncated ? "button" : undefined}
+        tabIndex={isTruncated ? 0 : undefined}
+        aria-label={
+          isTruncated ? `Show full value: ${tooltip}` : undefined
+        }
+      >
+        {children}
+      </div>
+      <Modal
+        isOpen={modalOpen}
+        title={modalTitle ?? "Cell value"}
+        onClose={() => setModalOpen(false)}
+        width="max-w-lg"
+      >
+        <p className="break-words whitespace-pre-wrap text-gray-800">
+          {tooltip}
+        </p>
+      </Modal>
+    </>
   );
 }
 
@@ -143,7 +187,7 @@ export default function DynamicGrid<T extends object>(
               const value = record[col.key];
               const text = String(value ?? "");
               return (
-                <GridCell key={col.key} tooltip={text}>
+                <GridCell key={col.key} tooltip={text} modalTitle={col.header}>
                   {col.render ? col.render(value, record) : text}
                 </GridCell>
               );
