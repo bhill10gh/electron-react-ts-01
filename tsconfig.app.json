@@ -18,6 +18,7 @@
   "include": [
     "src/**/*.tsx",
     "src/vite-env.d.ts",
-    "src/types/electron.d.ts"
+    "src/types/electron.d.ts",
+    "src/types/pokersolver.d.ts"
   ]
 }

@@ -1,0 +1,226 @@
+.arcade-suite {
+  margin: -1.5rem;
+  min-height: calc(100vh - 8rem);
+  color: #f8fafc;
+  font-family: Inter, ui-sans-serif, system-ui, sans-serif;
+  background: radial-gradient(ellipse at top, #142943 0%, #07111f 58%);
+}
+
+.arcade-suite button {
+  cursor: pointer;
+}
+
+.arcade-suite button:disabled {
+  cursor: not-allowed;
+  opacity: 0.45;
+}
+
+.arcade-suite .game-wrap {
+  max-width: 680px;
+  margin: 0 auto;
+}
+
+.arcade-suite .game-button {
+  border-radius: 0.65rem;
+  background: #0891b2;
+  padding: 0.65rem 1rem;
+  font-weight: 700;
+  color: white;
+}
+
+.arcade-suite .game-button:hover {
+  background: #0e7490;
+}
+
+.arcade-suite .game-button.secondary {
+  background: #334155;
+}
+
+.arcade-suite .game-button.secondary:hover {
+  background: #475569;
+}
+
+.arcade-suite .snake-board {
+  display: grid;
+  grid-template-columns: repeat(20, minmax(0, 1fr));
+  width: min(100%, 440px);
+  aspect-ratio: 1;
+  margin: auto;
+  gap: 2px;
+  padding: 5px;
+  border: 1px solid #334155;
+  border-radius: 12px;
+  background: #0b1726;
+}
+
+.arcade-suite .snake-cell {
+  background: #14263a;
+  border-radius: 2px;
+}
+
+.arcade-suite .snake-head {
+  background: #a3e635;
+  border-radius: 4px;
+}
+
+.arcade-suite .snake-body {
+  background: #65a30d;
+  border-radius: 3px;
+}
+
+.arcade-suite .snake-food {
+  background: #fb7185;
+  border-radius: 50%;
+}
+
+.arcade-suite .tetris-board {
+  display: grid;
+  grid-template-columns: repeat(10, 1fr);
+  width: min(100%, 300px);
+  margin: auto;
+  gap: 2px;
+  padding: 5px;
+  background: #0b1726;
+  border: 1px solid #334155;
+  border-radius: 10px;
+}
+
+.arcade-suite .tetris-cell {
+  aspect-ratio: 1;
+  border: 1px solid;
+  border-radius: 3px;
+  background: #14263a;
+}
+
+.arcade-suite .space-board {
+  position: relative;
+  width: min(100%, 380px);
+  height: 390px;
+  overflow: hidden;
+  margin: auto;
+  border: 1px solid #334155;
+  border-radius: 12px;
+  background: linear-gradient(#081326, #101d35);
+}
+
+.arcade-suite .alien,
+.arcade-suite .player-ship,
+.arcade-suite .player-shot,
+.arcade-suite .enemy-shot {
+  position: absolute;
+  display: block;
+}
+
+.arcade-suite .alien {
+  color: #a3e635;
+  font-size: 22px;
+  text-shadow: 0 0 10px #84cc16;
+}
+
+.arcade-suite .player-ship {
+  bottom: 15px;
+  color: #38bdf8;
+  font-size: 30px;
+  text-shadow: 0 0 10px #38bdf8;
+}
+
+.arcade-suite .player-shot {
+  width: 4px;
+  height: 13px;
+  background: #fef08a;
+  box-shadow: 0 0 8px #fde047;
+}
+
+.arcade-suite .enemy-shot {
+  width: 4px;
+  height: 12px;
+  background: #fb7185;
+}
+
+.arcade-suite .mine-board {
+  display: grid;
+  grid-template-columns: repeat(9, minmax(0, 1fr));
+  width: min(100%, 360px);
+  margin: auto;
+  gap: 3px;
+}
+
+.arcade-suite .mine-cell {
+  aspect-ratio: 1;
+  border-radius: 5px;
+  background: #475569;
+  font-weight: 800;
+  color: #e2e8f0;
+}
+
+.arcade-suite .mine-cell:hover {
+  background: #64748b;
+}
+
+.arcade-suite .mine-cell.revealed {
+  background: #cbd5e1;
+  color: #0f172a;
+  cursor: default;
+}
+
+.arcade-suite .mine-cell.mine-hit {
+  background: #fb7185;
+}
+
+.arcade-suite .maze-board {
+  display: grid;
+  grid-template-columns: repeat(17, minmax(0, 1fr));
+  width: min(100%, 510px);
+  margin: auto;
+  gap: 2px;
+  background: #0b1726;
+  padding: 5px;
+  border-radius: 10px;
+}
+
+.arcade-suite .maze-cell {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  aspect-ratio: 1;
+  color: #fde68a;
+  font-size: clamp(9px, 2.4vw, 18px);
+  line-height: 1;
+}
+
+.arcade-suite .maze-wall {
+  background: #1d4ed8;
+  border-radius: 3px;
+}
+
+.arcade-suite .tic-board {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  width: min(100%, 330px);
+  margin: auto;
+  gap: 8px;
+}
+
+.arcade-suite .tic-cell {
+  aspect-ratio: 1;
+  border: 1px solid #475569;
+  border-radius: 12px;
+  background: #14263a;
+  font-size: clamp(2.5rem, 10vw, 4.5rem);
+  font-weight: 900;
+}
+
+.arcade-suite .tic-cell:hover {
+  background: #1e3a55;
+}
+
+@media (max-width: 480px) {
+  .arcade-suite .maze-board {
+    gap: 1px;
+    padding: 3px;
+  }
+
+  .arcade-suite .maze-cell {
+    font-size: 9px;
+  }
+}

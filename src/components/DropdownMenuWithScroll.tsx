@@ -21,6 +21,12 @@ const NAV_ITEMS = [
   { label: "Audio Player", path: "/audio-player" },
   { label: "Video Player", path: "/video-player" },
   { label: "Tailwind Buttons", path: "/tailwind-buttons" },
+  { label: "Arcade Suite", path: "/arcade-suite" },
+  { label: "Minesweeper (Win98)", path: "/minesweeper-react" },
+  { label: "Solitaire Page", path: "/solitaire-page" },
+  { label: "Texas Holdem Poker Page", path: "/texas-holdem-poker-page" },
+  { label: "Blackjack", path: "/blackjack" },
+  { label: "Baccarat", path: "/baccarat" },
 ] as const;
 
 export function MenuWithScrollingContent() {
