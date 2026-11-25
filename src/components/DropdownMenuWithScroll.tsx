@@ -10,6 +10,7 @@ import { DownloadHtmlBySelector } from "./DownloadHtmlBySelector";
 import { buildHtmlFromSelectors } from "../utilities/getPageHtml";
 import { TailwindButton } from "./TailwindButton";
 import { htmlToPdf } from "../utilities/htmlToPdf";
+import { ZoomControls } from "./ZoomControls";
 
 const NAV_ITEMS = [
   { label: "Home", path: "/" },
@@ -71,6 +72,7 @@ export function MenuWithScrollingContent() {
           ))}
         </MenuList>
       </Menu>
+      <ZoomControls />
       <DownloadHtmlBySelector
         selector={["head", "#page-content"]}
         filename="menu-and-content.html"

@@ -26,4 +26,8 @@ contextBridge.exposeInMainWorld("electronAPI", {
     ipcRenderer.invoke("dialog:openAudio"),
   openVideo: (): Promise<string | null> =>
     ipcRenderer.invoke("dialog:openVideo"),
+  getZoomPercent: (): Promise<number> => ipcRenderer.invoke("zoom:getPercent"),
+  zoomIn: (): Promise<number> => ipcRenderer.invoke("zoom:in"),
+  zoomOut: (): Promise<number> => ipcRenderer.invoke("zoom:out"),
+  zoomReset: (): Promise<number> => ipcRenderer.invoke("zoom:reset"),
 });

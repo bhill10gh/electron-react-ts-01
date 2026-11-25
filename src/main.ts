@@ -7,6 +7,10 @@ import { ChildProcessByStdio } from "node:child_process";
 import { Readable } from "node:stream";
 import { pathToFileURL } from "node:url";
 import { registerMusicDbHandlers } from "./ipc/musicDbHandlers";
+import {
+  applySavedZoomToWindow,
+  registerZoomHandlers,
+} from "./ipc/zoomHandlers";
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
 if (started) {
@@ -40,6 +44,7 @@ const API_URL = "http://127.0.0.1:5189";
 const API_EXE_NAME = "api-service.exe";
 
 registerMusicDbHandlers(API_URL);
+registerZoomHandlers();
 
 function getApiExecutablePath(): string {
   if (app.isPackaged) {
@@ -69,6 +74,7 @@ const createWindow = () => {
     //titleBarStyle: "hidden",
   });
   mainWindow.removeMenu();
+  applySavedZoomToWindow(mainWindow);
 
   // and load the index.html of the app.
   if (MAIN_WINDOW_VITE_DEV_SERVER_URL) {

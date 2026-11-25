@@ -25,6 +25,10 @@ declare global {
         artistName?: string;
         genre?: string;
       }) => Promise<import("./mp3Types").Mp3SongWithArtists[]>;
+      getZoomPercent: () => Promise<number>;
+      zoomIn: () => Promise<number>;
+      zoomOut: () => Promise<number>;
+      zoomReset: () => Promise<number>;
     };
   }
 }
