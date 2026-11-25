@@ -27,7 +27,7 @@ function Game({settings} : GameProps) {
         setTimerStarted(-1);
     }
 
-    useEffect(restartGame, [settings]);
+    useEffect(restartGame, [settings.width, settings.height, settings.minesCount]);
 
     useEffect(() => {
         if (timerStarted >= 0) {

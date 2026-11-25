@@ -2,12 +2,10 @@ import { Provider } from "react-redux";
 import { Route, Routes } from "react-router-dom";
 import { store } from "./app/store";
 import AboutPage from "./AboutPage";
-import Game from "./features/game/Game";
+import MinesweeperWithSettings from "./features/game/MinesweeperWithSettings";
 import MinesweeperDesktop from "./MinesweeperDesktop";
 import Window from "./Window";
 import styles from "./minesweeperReactPage.module.css";
-
-const GAME_SETTINGS = { height: 16, width: 16, minesCount: 40 } as const;
 
 export default function MinesweeperReactPage() {
   return (
@@ -27,7 +25,7 @@ export default function MinesweeperReactPage() {
               path="minesweeper"
               element={
                 <Window title="Minesweeper">
-                  <Game settings={GAME_SETTINGS} />
+                  <MinesweeperWithSettings />
                 </Window>
               }
             />
