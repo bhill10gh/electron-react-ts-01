@@ -1,12 +1,16 @@
 //TexasHoldemPokerPage
 
-import { useState } from "react";
+import { useMemo, useState } from "react";
 
 import {
   createDeck,
   dealCards,
 } from "../components/TexasHoldemPoker/utils/deck";
-import { determineWinner } from "../components/TexasHoldemPoker/utils/poker";
+import {
+  describeBestHand,
+  determineWinnerDetails,
+  type WinnerInfo,
+} from "../components/TexasHoldemPoker/utils/poker";
 
 import PokerTable from "../components/TexasHoldemPoker/components/PokerTable";
 import PokerControls from "../components/TexasHoldemPoker/components/PokerControls";
@@ -81,9 +85,23 @@ export default function TexasHoldemPokerPage() {
 
   const [message, setMessage] = useState("Start a new game!");
 
-  const [winners, setWinners] = useState<string[]>([]);
+  const [winnerHands, setWinnerHands] = useState<WinnerInfo[]>([]);
 
   const [gameStarted, setGameStarted] = useState(false);
+
+  const humanPlayer = players[0];
+
+  const yourBestHand = useMemo(() => {
+    if (!gameStarted || humanPlayer.folded || communityCards.length === 0) {
+      return null;
+    }
+    return describeBestHand(humanPlayer.cards, communityCards);
+  }, [
+    gameStarted,
+    humanPlayer.folded,
+    humanPlayer.cards,
+    communityCards,
+  ]);
 
   // --------------------------------
   // Start a new hand
@@ -104,7 +122,7 @@ export default function TexasHoldemPokerPage() {
     setCommunityCards([]);
     setPot(0);
     setStage("preflop");
-    setWinners([]);
+    setWinnerHands([]);
     setMessage("Your turn! Choose an action.");
     setGameStarted(true);
   }
@@ -118,7 +136,8 @@ export default function TexasHoldemPokerPage() {
     currentBoard: Card[],
     currentPot: number,
   ) {
-    const winningNames = determineWinner(currentPlayers, currentBoard);
+    const winnerDetails = determineWinnerDetails(currentPlayers, currentBoard);
+    const winningNames = winnerDetails.map((winner) => winner.name);
 
     const winningPlayers = currentPlayers.filter((player) =>
       winningNames.includes(player.name),
@@ -140,7 +159,7 @@ export default function TexasHoldemPokerPage() {
     });
 
     setPlayers(updatedPlayers);
-    setWinners(winningNames);
+    setWinnerHands(winnerDetails);
     setStage("showdown");
 
     setMessage(
@@ -249,6 +268,16 @@ export default function TexasHoldemPokerPage() {
     }
   }
 
+  const winnerHandsByPlayer = useMemo(() => {
+    const map: Record<string, { name: string; descr: string }> = {};
+    for (const winner of winnerHands) {
+      if (winner.hand) {
+        map[winner.name] = winner.hand;
+      }
+    }
+    return map;
+  }, [winnerHands]);
+
   // --------------------------------
   // Render
   // --------------------------------
@@ -302,6 +331,8 @@ export default function TexasHoldemPokerPage() {
           communityCards={communityCards}
           pot={pot}
           revealCards={stage === "showdown"}
+          yourBestHand={yourBestHand}
+          winnerHands={winnerHandsByPlayer}
         />
 
         {/* Game Controls */}
@@ -317,10 +348,40 @@ export default function TexasHoldemPokerPage() {
                 className="text-xl
                 text-yellow-400 font-bold mb-4"
               >
-                {winners.length > 0
-                  ? `Winner: ${winners.join(", ")}`
+                {winnerHands.length > 0
+                  ? `Winner: ${winnerHands.map((w) => w.name).join(", ")}`
                   : "Hand finished"}
               </div>
+
+              {winnerHands.length > 0 && (
+                <div className="mx-auto mb-6 flex max-w-lg flex-col gap-3">
+                  {winnerHands.map((winner) => (
+                    <div
+                      key={winner.name}
+                      className="rounded-lg border border-yellow-400/40
+                        bg-black/30 px-4 py-3 text-left"
+                    >
+                      <div className="text-sm font-bold text-yellow-300">
+                        {winner.name}
+                      </div>
+                      {winner.hand ? (
+                        <>
+                          <div className="mt-1 text-lg font-bold text-cyan-100">
+                            {winner.hand.name}
+                          </div>
+                          <div className="text-sm text-cyan-200/90">
+                            {winner.hand.descr}
+                          </div>
+                        </>
+                      ) : (
+                        <div className="mt-1 text-sm text-gray-400">
+                          Won — all other players folded.
+                        </div>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              )}
 
               <button
                 onClick={startNewHand}

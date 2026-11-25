@@ -1,4 +1,5 @@
 import { Player, Card } from "../models/pokerTypes";
+import type { HandDescription } from "../utils/poker";
 import PlayerSeat from "./PlayerSeat";
 import CommunityCards from "./CommunityCards";
 
@@ -7,6 +8,8 @@ type Props = {
   communityCards: Card[];
   pot: number;
   revealCards?: boolean;
+  yourBestHand?: HandDescription | null;
+  winnerHands?: Record<string, HandDescription>;
 };
 
 export default function PokerTable({
@@ -14,7 +17,29 @@ export default function PokerTable({
   communityCards,
   pot,
   revealCards = false,
+  yourBestHand = null,
+  winnerHands = {},
 }: Props) {
+  function seatHandProps(player: Player) {
+    const winningHand = revealCards ? winnerHands[player.name] : undefined;
+
+    if (winningHand) {
+      return {
+        bestHand: winningHand,
+        bestHandLabel: "Winning hand",
+      };
+    }
+
+    if (player.isHuman && yourBestHand) {
+      return {
+        bestHand: yourBestHand,
+        bestHandLabel: "Your best hand",
+      };
+    }
+
+    return {};
+  }
+
   return (
     <div
       className="relative bg-green-800
@@ -26,7 +51,12 @@ export default function PokerTable({
       {/* Top players */}
       <div className="flex justify-around">
         {players.slice(1, 3).map((player) => (
-          <PlayerSeat key={player.id} player={player} showCards={revealCards} />
+          <PlayerSeat
+            key={player.id}
+            player={player}
+            showCards={revealCards}
+            {...seatHandProps(player)}
+          />
         ))}
       </div>
 
@@ -51,9 +81,14 @@ export default function PokerTable({
           player={players[0]}
           isCurrentPlayer
           showCards={revealCards}
+          {...seatHandProps(players[0])}
         />
 
-        <PlayerSeat player={players[3]} showCards={revealCards} />
+        <PlayerSeat
+          player={players[3]}
+          showCards={revealCards}
+          {...seatHandProps(players[3])}
+        />
       </div>
     </div>
   );
