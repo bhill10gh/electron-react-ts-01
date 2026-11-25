@@ -15,6 +15,7 @@ import SolitairePage from "./pages/SolitairePage";
 import TexasHoldemPokerPage from "./pages/TexasHoldemPokerPage";
 import Blackjack from "./pages/Blackjack";
 import Baccarat from "./pages/Baccarat";
+import SpyHunter from "./pages/SpyHunterGame";
 
 export default function App() {
   return (
@@ -47,6 +48,7 @@ export default function App() {
             />
             <Route path="/blackjack" element={<Blackjack />} />
             <Route path="/baccarat" element={<Baccarat />} />
+            <Route path="/spy-hunter" element={<SpyHunter />} />
           </Routes>
         </div>
       </div>

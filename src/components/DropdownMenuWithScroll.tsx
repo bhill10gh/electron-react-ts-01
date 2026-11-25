@@ -28,6 +28,7 @@ const NAV_ITEMS = [
   { label: "Texas Holdem Poker Page", path: "/texas-holdem-poker-page" },
   { label: "Blackjack", path: "/blackjack" },
   { label: "Baccarat", path: "/baccarat" },
+  { label: "Spy Hunter", path: "/spy-hunter" },
 ] as const;
 
 export function MenuWithScrollingContent() {
